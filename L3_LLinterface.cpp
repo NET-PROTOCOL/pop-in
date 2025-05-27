@@ -91,7 +91,3 @@ void L3_LLI_setReconfigSrcIdReqFunc(void (*funcPtr)(uint8_t))
 {
     L3_LLI_reconfigSrcIdReqFunc = funcPtr;
 }
-
-void L3_LLI_setMsgPtr(uint8_t* ptr, uint8_t size, uint8_t srcId, int16_t rssi, int8_t snr) {
-    // 구현 내용
-}

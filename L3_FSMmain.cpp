@@ -849,10 +849,8 @@ void L3_FSMrun(void)
 //data reception FSM event
 void L3_recvDataFromLowerLayer(uint8_t* ptr, uint8_t size, uint8_t srcId, int16_t rssi, int8_t snr)
 {
-    debug_if(DBGMSG_L3, "[L3] Received data from node %d, size: %d, RSSI: %d, SNR: %d\n", srcId, size, rssi, snr);
-    
-    L3_LLI_setMsgPtr(ptr, size, srcId, rssi, snr); //store it into buffer
-    L3_event_setEventFlag(L3_event_msgRcvd); //setting event flag
+    debug_if(DBGMSG_L3, "[L3] Received data from node %d, size: %d, RSSI: %d, SNR: %d\n", 
+             srcId, size, rssi, snr);
 }
 
 // 관리자 시스템을 위한 추가 함수들
