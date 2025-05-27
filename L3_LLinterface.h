@@ -19,3 +19,4 @@ int8_t L3_LLI_getCurrentSnr();
 // Setter functions for callback registration
 void L3_LLI_setDataReqFunc(void (*funcPtr)(uint8_t*, uint8_t, uint8_t));
 void L3_LLI_setReconfigSrcIdReqFunc(void (*funcPtr)(uint8_t));
+void L3_LLI_setMsgPtr(uint8_t* ptr, uint8_t size, uint8_t srcId, int16_t rssi, int8_t snr);
