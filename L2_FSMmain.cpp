@@ -56,13 +56,14 @@ static uint8_t L2_validityCheck_ID(void)
 
 uint8_t L2_configDestId(uint8_t destId)
 {
+    destL2ID = destId;
+    
     if (L2_validityCheck_ID() == 1)
     {
         debug("[L2] Failed to config dest to ID %i\n", destId);
         return 1;
     }
 
-    destL2ID = destId;
     return 0;
 }
 
@@ -95,7 +96,7 @@ int L2_pullSduBuffer(uint8_t size)
 
 void L2_LLI_handleDataReq(uint8_t* sdu, uint8_t len, uint8_t destId)
 {
-    if (L2_configDestId(destId) == 1 && L2_event_checkEventFlag(L2_event_dataToSendBuffer))
+    if (L2_configDestId(destId) == 1 || L2_event_checkEventFlag(L2_event_dataToSendBuffer))
     {
         debug_if(DBGMSG_L2, "[L2] Failed to handle DATA_REQ (dest ID is invalid or data TX is in progress...(SDU flag : %i)\n", L2_event_checkEventFlag(L2_event_dataToSendBuffer));
         return;
