@@ -139,4 +139,4 @@ L3_FSMmain.o: ../L3_FSMmain.cpp ../mbed_config.h ../L3_FSMevent.h \
  ../mbed/platform/FileSystemHandle.h ../mbed/platform/DirHandle.h \
  ../mbed/platform/CriticalSectionLock.h ../mbed/platform/DeepSleepLock.h \
  ../mbed/platform/mbed_stats.h ../mbed/platform/ScopedLock.h \
- ../L3_timer.h ../L3_LLinterface.h ../protocol_parameters.h
+ ../L3_timer.h ../L3_LLinterface.h ../L3_admin.h ../protocol_parameters.h
