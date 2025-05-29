@@ -10,6 +10,8 @@
 #define L3STATE_SCANNING            0  // 메인 상태 - 네트워크 스캔
 #define L3STATE_CONNECTED           1  // 연결된 상태
 #define L3STATE_IN_USE              2  // 부스 체험 중 상태 (단체 채팅)
+#define L3STATE_WAITING             3  // 대기 상태 (waiting queue)
+
 
 //Node types
 #define NODE_TYPE_USER              0
@@ -298,13 +300,28 @@ void L3_sendBeacon(void)
     L3_LLI_dataReqFunc((uint8_t*)&beacon, sizeof(BeaconMsg_t), 255); // 브로드캐스트
 }
 
+void L3_resetConnectionState(void)
+{
+    connectionRequested = 0;
+    isConnected = 0;
+    connectedBoothId = 0;
+    experienceRequested = 0;
+    inExperience = 0;
+    
+    // 하위 레이어 시퀀스 번호도 리셋 (하위 레이어 함수 필요)
+    // L3_LLI_resetSequenceNumber(); // 이런 함수가 있다면
+}
+
 void L3_sendConnectionRequest(uint8_t boothId)
 {
+    // 연결 요청 전 상태 초기화
+    L3_resetConnectionState();
+    
     ConnMsg_t connReq;
     connReq.msgType = L3_MSG_TYPE_CONN_REQ;
     connReq.srcId = myNodeId;
     connReq.destId = boothId;
-    connReq.status = 0; // request
+    connReq.status = 0;
     
     L3_LLI_dataReqFunc((uint8_t*)&connReq, sizeof(ConnMsg_t), boothId);
     pc.printf("[INFO] Connection request sent to Booth %d\n", boothId);
@@ -472,7 +489,8 @@ void L3_handleConnectionResponse(uint8_t* dataPtr, uint8_t srcId)
     else if (connResp->status == 2)
     {
         pc.printf("[INFO] Connection rejected by Booth %d (may be full)\n", srcId);
-        connectionRequested = 0;
+        L3_resetConnectionState(); // 완전한 상태 리셋
+        main_state = L3STATE_SCANNING; // 스캐닝 상태로 복귀
     }
 }
 
